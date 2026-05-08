@@ -98,7 +98,7 @@ button{cursor:pointer;border:none;background:none;font-family:var(--fb)}
 .orb-2{width:350px;height:350px;background:radial-gradient(circle,rgba(201,162,39,.08),transparent 70%);bottom:10%;right:-80px;animation:orb-drift 9s ease-in-out infinite reverse}
 .hero-bg{position:absolute;inset:0;will-change:transform;background:url('fotos/622946142_18101122273681350_2510665615728612212_n.jpg') center 12%/cover no-repeat}
 .hero-ov{position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,13,13,.97) 0%,rgba(13,13,13,.78) 45%,rgba(13,13,13,.35) 100%),linear-gradient(to top,rgba(13,13,13,.55) 0%,transparent 50%)}
-.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:9rem 2.5rem 10rem;width:100%;display:grid;grid-template-columns:1fr 410px;gap:4rem;align-items:center}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:9rem 2.5rem 10rem;width:100%;display:grid;grid-template-columns:1fr;gap:4rem;align-items:center}
 .hero-eyebrow{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;animation:fadeUp .7s ease .1s both}
 .hero-eyebrow-line{width:30px;height:2px;background:var(--gold);border-radius:1px}
 .hero-h1{font-family:var(--fh);font-size:clamp(3.8rem,10vw,9rem);font-weight:700;line-height:.88;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .7s ease .25s both}
@@ -106,13 +106,6 @@ button{cursor:pointer;border:none;background:none;font-family:var(--fb)}
 .hero-sub{font-size:1rem;color:rgba(245,245,240,.62);max-width:440px;line-height:1.85;margin-bottom:2.5rem;animation:fadeUp .7s ease .4s both}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s ease .55s both}
 /* floating card */
-.hero-card{background:rgba(18,18,18,.85);border:1px solid rgba(201,162,39,.2);backdrop-filter:blur(20px);border-radius:20px;padding:2.5rem;animation:fadeUp .8s ease .4s both;box-shadow:0 0 60px rgba(201,162,39,.08),0 20px 60px rgba(0,0,0,.5)}
-.hero-card-title{font-family:var(--fh);font-size:1.35rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5rem}
-.hcs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.75rem}
-.hcs{background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.14);border-radius:12px;padding:1rem;text-align:center}
-.hcs-n{font-family:var(--fh);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
-.hcs-l{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,245,240,.38);margin-top:.25rem}
-.hero-card .btn{width:100%;justify-content:center}
 /* scroll hint */
 .hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.45rem;animation:fadeIn 1s ease 1s both}
 .hero-scroll span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)}
@@ -249,7 +242,7 @@ textarea.fi{resize:vertical;min-height:120px}
 .rating-stars{display:flex;gap:.2rem;color:var(--gold)}
 .rating-num{font-family:var(--fh);font-size:1.4rem;font-weight:700;color:var(--gold)}
 .rating-src{font-size:.78rem;color:var(--muted)}
-.reel{display:flex;gap:1.2rem;overflow-x:auto;cursor:grab;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1rem}
+.reel{display:flex;gap:1.2rem;overflow-x:auto;overflow-y:hidden;cursor:grab;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1rem}
 .reel:active{cursor:grabbing}
 .reel::-webkit-scrollbar{height:3px}
 .reel::-webkit-scrollbar-track{background:var(--s2)}
@@ -286,8 +279,6 @@ textarea.fi{resize:vertical;min-height:120px}
 /* ── RESPONSIVE ──────────────────────────── */
 @media(max-width:1100px){
   .svc-grid{grid-template-columns:repeat(2,1fr)}
-  .hero-inner{grid-template-columns:1fr}
-  .hero-card{max-width:400px}
 }
 @media(max-width:1024px){
   .about-grid{grid-template-columns:1fr;gap:3.5rem}
@@ -302,9 +293,8 @@ textarea.fi{resize:vertical;min-height:120px}
   .sec{padding:5rem 0}
   .nav-links,.nav-cta{display:none}
   .ham{display:flex}
-  .hero-inner{padding:8rem 2rem 7rem;grid-template-columns:1fr}
+  .hero-inner{padding:8rem 2rem 7rem}
   .hero-h1{font-size:clamp(3.2rem,13vw,5rem)}
-  .hero-card{display:none}
   .how-steps{grid-template-columns:1fr}
   .how-steps::before{display:none}
   .action-strip{grid-template-columns:1fr;height:auto}
@@ -422,16 +412,6 @@ textarea.fi{resize:vertical;min-height:120px}
         <a href="#contact" class="btn btn-primary">Start vandaag <svg class="ic-sm"><use href="#i-arr"/></svg></a>
         <a href="#diensten" class="btn btn-outline">Bekijk diensten</a>
       </div>
-    </div>
-    <div class="hero-card">
-      <div class="hero-card-title">Jouw Resultaten</div>
-      <div class="hcs-grid">
-        <div class="hcs"><div class="hcs-n">100+</div><div class="hcs-l">Klanten</div></div>
-        <div class="hcs"><div class="hcs-n">5.0</div><div class="hcs-l">Rating</div></div>
-        <div class="hcs"><div class="hcs-n">3+</div><div class="hcs-l">Jaar</div></div>
-        <div class="hcs"><div class="hcs-n">98%</div><div class="hcs-l">Tevreden</div></div>
-      </div>
-      <a href="#contact" class="btn btn-primary">Plan gratis gesprek <svg class="ic-sm"><use href="#i-arr"/></svg></a>
     </div>
   </div>
   <div class="hero-scroll">
