@@ -311,8 +311,12 @@ textarea.fi{resize:vertical;min-height:120px}
   .sec{padding:5rem 0}
   .nav-links,.nav-cta{display:none}
   .ham{display:flex}
-  .hero-inner{padding:8rem 2rem 7rem}
-  .hero-h1{font-size:clamp(3.2rem,13vw,5rem)}
+  .hero-inner{padding:8rem 2rem 7rem;text-align:center}
+  .hero-eyebrow{justify-content:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .hero-btns{justify-content:center}
+  .hero-h1{font-size:clamp(4rem,18vw,6rem)}
+  .about-badge{top:auto;bottom:1.5rem;left:50%;transform:translateX(-50%);padding:1rem 1.5rem;width:max-content}
   .how-steps{grid-template-columns:1fr}
   .how-steps::before{display:none}
   .action-strip{grid-template-columns:1fr;height:auto}
@@ -330,8 +334,8 @@ textarea.fi{resize:vertical;min-height:120px}
   .cta-actions{justify-content:center;flex-wrap:wrap}
 }
 @media(max-width:480px){
-  .hero-btns{flex-direction:column}
-  .btn{justify-content:center}
+  .hero-btns{flex-direction:column;align-items:center}
+  .btn{justify-content:center;width:100%;max-width:320px}
 }
 </style>
 </head>
