@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="FitByEmre – Personal Fitness Coach. Plan vandaag een gratis kennismakingsgesprek.">
+<title>FitByEmre — Personal Fitness Coach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --onyx:#0D0D0D; --charcoal:#141414; --surf:#1A1A1A; --s2:#222;
+  --gold:#C9A227; --gold-lt:#DDB83A; --gold-dk:#A88420;
+  --ivory:#F5F5F0; --muted:#666; --border:rgba(255,255,255,.07);
+  --r:14px; --fh:'Oswald',sans-serif; --fb:'Inter',sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--onyx);color:var(--ivory);font-family:var(--fb);line-height:1.65;overflow-x:hidden}
+::selection{background:rgba(201,162,39,.25)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:var(--fb)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--charcoal)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* icons */
+.ic{width:22px;height:22px;flex-shrink:0}
+.ic-sm{width:16px;height:16px;flex-shrink:0}
+.ic-lg{width:30px;height:30px;flex-shrink:0}
+
+/* typography */
+.lbl{display:inline-flex;align-items:center;gap:.6rem;font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.lbl::before{content:'';width:26px;height:2px;background:var(--gold);border-radius:1px;flex-shrink:0}
+.sec-title{font-family:var(--fh);font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;text-transform:uppercase;line-height:1.05;letter-spacing:.02em;margin-top:.5rem}
+.gold-bar{display:block;width:46px;height:3px;background:var(--gold);border-radius:2px;margin-top:1.2rem;box-shadow:0 0 14px rgba(201,162,39,.55)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2.2rem;border-radius:999px;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;transition:transform .25s var(--ease),box-shadow .3s var(--ease);position:relative;overflow:hidden;white-space:nowrap}
+.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 60%);opacity:0;transition:opacity .25s}
+.btn:hover::before{opacity:1}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:var(--onyx);box-shadow:0 4px 18px rgba(201,162,39,.35),0 2px 6px rgba(201,162,39,.2);border:1px solid rgba(201,162,39,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 22px rgba(201,162,39,.7),0 0 50px rgba(201,162,39,.25),0 8px 24px rgba(201,162,39,.45)}
+.btn-outline{border:1.5px solid rgba(255,255,255,.2);color:var(--ivory);background:transparent}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px);box-shadow:0 0 18px rgba(201,162,39,.15)}
+.btn-ghost{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.18);color:var(--ivory)}
+
+/* keyframes */
+@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}40%{transform:translateY(-10px) rotate(1deg)}70%{transform:translateY(-4px) rotate(-1deg)}}
+@keyframes orb-drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-28px) scale(1.08)}66%{transform:translate(-18px,14px) scale(.95)}}
+@keyframes pulse-ring{0%{box-shadow:0 0 0 0 rgba(201,162,39,.5)}70%{box-shadow:0 0 0 18px rgba(201,162,39,0)}100%{box-shadow:0 0 0 0 rgba(201,162,39,0)}}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes step-in{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+@keyframes bounce-down{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+
+/* scroll reveal */
+.rv{opacity:0;transform:translateY(34px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv-l{opacity:0;transform:translateX(-46px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv-r{opacity:0;transform:translateX(46px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.rv-s{opacity:0;transform:scale(.93);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.vis{opacity:1!important;transform:none!important}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* layout */
+.wrap{max-width:1200px;margin:0 auto;padding:0 2.5rem}
+.sec{padding:7rem 0}
+
+/* ── NAV ─────────────────────────────────── */
+.nav{position:fixed;inset:0 0 auto;z-index:300;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 2.5rem;transition:padding .3s,background .3s}
+.nav.solid{background:rgba(13,13,13,.96);backdrop-filter:blur(24px);padding:1rem 2.5rem;border-bottom:1px solid var(--border)}
+.nav-logo img{height:36px;filter:brightness(0) invert(1)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.73rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,245,240,.6);transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:var(--onyx);padding:.6rem 1.6rem;border-radius:999px;font-size:.73rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;box-shadow:0 4px 16px rgba(201,162,39,.35);transition:transform .25s,box-shadow .3s}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(201,162,39,.6),0 0 40px rgba(201,162,39,.2)}
+.ham{display:none;flex-direction:column;gap:5px;padding:4px}
+.ham span{display:block;width:22px;height:2px;background:var(--ivory);transition:.3s var(--ease);border-radius:2px}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobnav{display:none;position:fixed;inset:0;background:var(--charcoal);z-index:299;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.mobnav.open{display:flex;animation:fadeIn .2s ease both}
+.mobnav a{font-family:var(--fh);font-size:2.8rem;font-weight:700;text-transform:uppercase;transition:color .2s}
+.mobnav a:hover,.mobnav a:focus{color:var(--gold)}
+
+/* ── HERO ────────────────────────────────── */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+.orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px)}
+.orb-1{width:500px;height:500px;background:radial-gradient(circle,rgba(201,162,39,.13),transparent 70%);top:5%;left:-150px;animation:orb-drift 12s ease-in-out infinite}
+.orb-2{width:350px;height:350px;background:radial-gradient(circle,rgba(201,162,39,.08),transparent 70%);bottom:10%;right:-80px;animation:orb-drift 9s ease-in-out infinite reverse}
+.hero-bg{position:absolute;inset:0;will-change:transform;background:url('fotos/622946142_18101122273681350_2510665615728612212_n.jpg') center 12%/cover no-repeat}
+.hero-ov{position:absolute;inset:0;background:linear-gradient(115deg,rgba(13,13,13,.97) 0%,rgba(13,13,13,.78) 45%,rgba(13,13,13,.35) 100%),linear-gradient(to top,rgba(13,13,13,.55) 0%,transparent 50%)}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:9rem 2.5rem 10rem;width:100%;display:grid;grid-template-columns:1fr 410px;gap:4rem;align-items:center}
+.hero-eyebrow{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;animation:fadeUp .7s ease .1s both}
+.hero-eyebrow-line{width:30px;height:2px;background:var(--gold);border-radius:1px}
+.hero-h1{font-family:var(--fh);font-size:clamp(3.8rem,10vw,9rem);font-weight:700;line-height:.88;letter-spacing:.02em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .7s ease .25s both}
+.hero-h1 em{color:var(--gold);font-style:normal;display:block;text-shadow:0 0 60px rgba(201,162,39,.4)}
+.hero-sub{font-size:1rem;color:rgba(245,245,240,.62);max-width:440px;line-height:1.85;margin-bottom:2.5rem;animation:fadeUp .7s ease .4s both}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s ease .55s both}
+/* floating card */
+.hero-card{background:rgba(18,18,18,.85);border:1px solid rgba(201,162,39,.2);backdrop-filter:blur(20px);border-radius:20px;padding:2.5rem;animation:fadeUp .8s ease .4s both;box-shadow:0 0 60px rgba(201,162,39,.08),0 20px 60px rgba(0,0,0,.5)}
+.hero-card-title{font-family:var(--fh);font-size:1.35rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1.5rem}
+.hcs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.75rem}
+.hcs{background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.14);border-radius:12px;padding:1rem;text-align:center}
+.hcs-n{font-family:var(--fh);font-size:2rem;font-weight:700;color:var(--gold);line-height:1}
+.hcs-l{font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,245,240,.38);margin-top:.25rem}
+.hero-card .btn{width:100%;justify-content:center}
+/* scroll hint */
+.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.45rem;animation:fadeIn 1s ease 1s both}
+.hero-scroll span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.hero-scroll svg{animation:bounce-down 2s ease-in-out infinite;color:rgba(255,255,255,.22)}
+
+/* ── MARQUEE ─────────────────────────────── */
+.mq-band{background:var(--gold);overflow:hidden;padding:.72rem 0}
+.mq-track{display:flex;width:max-content;animation:marq 26s linear infinite}
+.mq-item{display:flex;align-items:center;gap:1.8rem;padding:0 1.8rem;font-family:var(--fh);font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--onyx);white-space:nowrap}
+.mq-dot{width:4px;height:4px;border-radius:50%;background:rgba(13,13,13,.4)}
+
+/* ── CONTACT FORM ────────────────────────── */
+.cf-sec{background:var(--charcoal)}
+.cf-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:6rem;align-items:start}
+.cf-sticky{position:sticky;top:8rem}
+.cf-intro{color:rgba(245,245,240,.58);font-size:.9rem;line-height:1.85;margin:1.25rem 0 2.5rem}
+.cf-row{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:1.5rem}
+.cf-icon{width:42px;height:42px;border-radius:10px;background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.17);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0}
+.cf-dt{font-size:.67rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
+.cf-dv{font-size:.875rem;color:var(--ivory)}
+/* form box */
+.fbox{background:var(--surf);border:1px solid var(--border);border-radius:20px;padding:3rem;box-shadow:0 0 80px rgba(0,0,0,.35)}
+/* progress bar */
+.fprog{display:flex;gap:.35rem;align-items:center;margin-bottom:2.5rem}
+.fps{height:3px;flex:1;background:var(--s2);border-radius:2px;transition:background .4s}
+.fps.on{background:var(--gold);box-shadow:0 0 10px rgba(201,162,39,.5)}
+.fprog-lbl{font-size:.67rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;margin-left:.5rem}
+/* steps */
+.fstep{display:none}
+.fstep.active{display:block;animation:step-in .4s var(--ease) both}
+.fstep-num{font-size:.67rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+.fstep-title{font-family:var(--fh);font-size:1.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.02em;margin-bottom:1.75rem}
+/* inputs */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fmb{margin-bottom:1rem}
+.fl{display:block;font-size:.7rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:.45rem}
+.fi{width:100%;background:rgba(13,13,13,.8);border:1.5px solid var(--border);border-radius:10px;padding:.85rem 1.2rem;color:var(--ivory);font-family:var(--fb);font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none}
+.fi:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,39,.1)}
+.fi::placeholder{color:rgba(245,245,240,.18)}
+textarea.fi{resize:vertical;min-height:120px}
+/* option cards */
+.opts{display:flex;flex-direction:column;gap:.6rem}
+.opt input[type=radio],.opt input[type=checkbox]{display:none}
+.opt label{display:flex;align-items:center;gap:.9rem;padding:.95rem 1.2rem;background:rgba(13,13,13,.7);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-size:.875rem;transition:border-color .2s,background .2s,color .2s}
+.opt label:hover{border-color:rgba(201,162,39,.35)}
+.opt input:checked+label{border-color:var(--gold);background:rgba(201,162,39,.08);color:var(--gold);box-shadow:0 0 18px rgba(201,162,39,.07)}
+.opt-ring{width:17px;height:17px;border-radius:50%;border:2px solid var(--muted);transition:.2s;flex-shrink:0;position:relative}
+.opt input:checked+label .opt-ring{border-color:var(--gold)}
+.opt input:checked+label .opt-ring::after{content:'';position:absolute;inset:3px;background:var(--gold);border-radius:50%}
+/* frequency grid */
+.fq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.fq input[type=radio]{display:none}
+.fq label{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.9rem .5rem;background:rgba(13,13,13,.7);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;text-align:center}
+.fq label:hover{border-color:rgba(201,162,39,.35)}
+.fq input:checked+label{border-color:var(--gold);background:rgba(201,162,39,.08);color:var(--gold)}
+.fq-n{font-family:var(--fh);font-size:1.6rem;font-weight:700;line-height:1}
+.fq-l{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.2rem}
+.fq input:checked+label .fq-l{color:var(--gold)}
+/* days */
+.day-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem;margin-bottom:1.25rem}
+.db input[type=checkbox]{display:none}
+.db span{display:block;padding:.6rem .3rem;text-align:center;border:1.5px solid var(--border);border-radius:8px;font-size:.72rem;font-weight:500;cursor:pointer;transition:.2s}
+.db input:checked+span{border-color:var(--gold);background:rgba(201,162,39,.1);color:var(--gold)}
+/* form nav */
+.fact{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.fact-c{font-size:.7rem;color:var(--muted)}
+/* success */
+.fsuc{display:none;text-align:center;padding:1.5rem 0}
+.fsuc.show{display:block;animation:scaleIn .5s var(--ease) both}
+.fsuc-ring{width:72px;height:72px;border-radius:50%;border:2px solid var(--gold);background:rgba(201,162,39,.08);display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;color:var(--gold);animation:pulse-ring 2.2s ease infinite}
+.fsuc h3{font-family:var(--fh);font-size:2.2rem;font-weight:700;text-transform:uppercase;margin-bottom:.7rem}
+.fsuc p{font-size:.9rem;color:var(--muted);max-width:300px;margin:0 auto;line-height:1.7}
+
+/* ── SERVICES ────────────────────────────── */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
+.svc-card{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:2.5rem 2rem;position:relative;overflow:hidden;transition:transform .35s var(--ease),border-color .3s,box-shadow .35s}
+.svc-card::after{content:'';position:absolute;inset:0;background:linear-gradient(140deg,rgba(201,162,39,.05),transparent);opacity:0;transition:opacity .35s}
+.svc-card:hover{transform:translateY(-8px);border-color:rgba(201,162,39,.35);box-shadow:0 0 40px rgba(201,162,39,.08),0 24px 60px rgba(0,0,0,.6)}
+.svc-card:hover::after{opacity:1}
+.svc-card:hover .svc-icon{color:var(--gold);transform:translateY(-3px) scale(1.08)}
+.svc-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;color:rgba(245,245,240,.35);margin-bottom:1.75rem;transition:color .3s,transform .35s var(--ease)}
+.svc-name{font-family:var(--fh);font-size:1.15rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem}
+.svc-desc{font-size:.85rem;color:var(--muted);line-height:1.75}
+.svc-price{display:inline-flex;align-items:center;gap:.4rem;margin-top:1.5rem;font-size:.72rem;font-weight:600;color:var(--gold);letter-spacing:.06em}
+
+/* ── STATS ───────────────────────────────── */
+.stats-bar{background:var(--gold);padding:5rem 0;overflow:hidden}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stn{font-family:var(--fh);font-size:3.5rem;font-weight:700;color:var(--onyx);line-height:1}
+.stl{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(13,13,13,.5);margin-top:.4rem}
+
+/* ── ABOUT ───────────────────────────────── */
+.about{background:var(--charcoal)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:7rem;align-items:center}
+.about-img-wrap{position:relative;z-index:1}
+.about-img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 8%;border-radius:20px;display:block}
+.about-deco{position:absolute;bottom:-16px;right:-16px;width:55%;height:55%;border:2px solid var(--gold);border-radius:16px;z-index:-1;box-shadow:0 0 40px rgba(201,162,39,.1)}
+.about-badge{position:absolute;top:2.5rem;left:-2.5rem;background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:var(--onyx);padding:1.25rem 1.5rem;border-radius:14px;text-align:center;box-shadow:0 12px 40px rgba(201,162,39,.4);animation:float 6s ease-in-out infinite}
+.about-badge-n{font-family:var(--fh);font-size:2.2rem;font-weight:700;line-height:1}
+.about-badge-l{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-top:.2rem}
+.about-copy{color:rgba(245,245,240,.6);line-height:1.85;font-size:.95rem}
+.checks{display:flex;flex-direction:column;gap:.8rem;margin:.5rem 0 1rem}
+.chk{display:flex;align-items:center;gap:.9rem;font-size:.9rem}
+.chk-c{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gold);background:rgba(201,162,39,.1);display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0}
+
+/* ── HOW IT WORKS ────────────────────────── */
+.how{background:var(--onyx)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;position:relative;padding-top:1.5rem}
+.how-steps::before{content:'';position:absolute;top:3.2rem;left:calc(100%/6);right:calc(100%/6);height:1px;background:linear-gradient(90deg,transparent,rgba(201,162,39,.3) 20%,rgba(201,162,39,.3) 80%,transparent)}
+.how-step{position:relative;z-index:1}
+.how-num-row{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.how-num{width:52px;height:52px;border-radius:50%;background:rgba(201,162,39,.09);border:2px solid rgba(201,162,39,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:1.2rem;font-weight:700;color:var(--gold);flex-shrink:0;transition:.3s}
+.how-step:hover .how-num{background:var(--gold);color:var(--onyx);box-shadow:0 0 28px rgba(201,162,39,.5)}
+.how-ic{color:rgba(245,245,240,.22);transition:color .3s}
+.how-step:hover .how-ic{color:var(--gold)}
+.how-title{font-family:var(--fh);font-size:1.18rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.6rem}
+.how-desc{font-size:.875rem;color:var(--muted);line-height:1.75}
+
+/* ── ACTION STRIP ────────────────────────── */
+.action-strip{display:grid;grid-template-columns:1fr 1fr;height:580px;overflow:hidden}
+.act-img{position:relative;overflow:hidden}
+.act-img img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.act-img:hover img{transform:scale(1.06)}
+.act-cap{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,13,13,.85) 0%,transparent 55%);display:flex;align-items:flex-end;padding:2rem}
+.act-cap-inner{transform:translateY(6px);transition:transform .4s var(--ease)}
+.act-img:hover .act-cap-inner{transform:none}
+.act-label{font-family:var(--fh);font-size:1.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.act-sub{font-size:.72rem;color:rgba(245,245,240,.45);letter-spacing:.1em;text-transform:uppercase;margin-top:.25rem}
+
+/* ── REVIEWS ─────────────────────────────── */
+.reviews{background:var(--charcoal);overflow:hidden}
+.reviews-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
+.rating-pill{display:flex;align-items:center;gap:.65rem;padding-top:.5rem}
+.rating-stars{display:flex;gap:.2rem;color:var(--gold)}
+.rating-num{font-family:var(--fh);font-size:1.4rem;font-weight:700;color:var(--gold)}
+.rating-src{font-size:.78rem;color:var(--muted)}
+.reel{display:flex;gap:1.2rem;overflow-x:auto;cursor:grab;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:1rem}
+.reel:active{cursor:grabbing}
+.reel::-webkit-scrollbar{height:3px}
+.reel::-webkit-scrollbar-track{background:var(--s2)}
+.reel::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+.rcard{flex:0 0 340px;scroll-snap-align:start;background:var(--surf);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:border-color .3s}
+.rcard:hover{border-color:rgba(201,162,39,.25)}
+.rcard-stars{display:flex;gap:.2rem;margin-bottom:1rem;color:var(--gold)}
+.rcard-text{font-size:.875rem;color:rgba(245,245,240,.72);line-height:1.78;margin-bottom:1.5rem}
+.rcard-author{display:flex;align-items:center;gap:.75rem}
+.rcard-av{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;color:var(--onyx);flex-shrink:0}
+.rcard-name{font-weight:600;font-size:.85rem}
+.rcard-src{font-size:.7rem;color:var(--muted);display:flex;align-items:center;gap:.3rem;margin-top:.1rem}
+.g-g{font-weight:800;background:linear-gradient(#4285F4,#EA4335,#FBBC05,#34A853);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+
+/* ── FOOTER ──────────────────────────────── */
+.footer{background:var(--onyx);border-top:1px solid var(--border);padding:5.5rem 0 2.5rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.footer-logo{height:40px;filter:brightness(0) invert(1);margin-bottom:1.2rem}
+.footer-tag{font-size:.85rem;color:var(--muted);line-height:1.7;max-width:255px}
+.socials{display:flex;gap:.6rem;margin-top:1.75rem}
+.soc{width:38px;height:38px;border-radius:10px;background:var(--surf);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:border-color .25s,background .25s,color .25s,transform .25s}
+.soc:hover{border-color:var(--gold);background:rgba(201,162,39,.1);color:var(--gold);transform:translateY(-2px)}
+.fcol-t{font-size:.67rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+.flinks{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+.flinks a{font-size:.85rem;color:rgba(245,245,240,.48);transition:color .2s}
+.flinks a:hover{color:var(--gold)}
+.hour{display:flex;justify-content:space-between;font-size:.85rem;color:rgba(245,245,240,.48);margin-bottom:.65rem}
+.hour .d{color:rgba(245,245,240,.28)}
+.footer-contact-links{display:flex;flex-direction:column;gap:.5rem;margin-top:1.25rem}
+.footer-contact-links a{font-size:.82rem;color:var(--muted);display:flex;align-items:center;gap:.5rem;transition:color .2s}
+.footer-contact-links a:hover{color:var(--gold)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;font-size:.76rem;color:var(--muted)}
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media(max-width:1100px){
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-inner{grid-template-columns:1fr}
+  .hero-card{max-width:400px}
+}
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:3.5rem}
+  .about-badge{left:.5rem}
+  .about-deco{display:none}
+  .cf-grid{grid-template-columns:1fr;gap:3rem}
+  .cf-sticky{position:static}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:3rem}
+}
+@media(max-width:768px){
+  .sec{padding:5rem 0}
+  .nav-links,.nav-cta{display:none}
+  .ham{display:flex}
+  .hero-inner{padding:8rem 2rem 7rem;grid-template-columns:1fr}
+  .hero-h1{font-size:clamp(3.2rem,13vw,5rem)}
+  .hero-card{display:none}
+  .how-steps{grid-template-columns:1fr}
+  .how-steps::before{display:none}
+  .action-strip{grid-template-columns:1fr;height:auto}
+  .act-img{height:280px}
+  .svc-grid{grid-template-columns:1fr}
+  .rcard{flex:0 0 285px}
+  .fbox{padding:2rem 1.5rem}
+  .frow{grid-template-columns:1fr}
+  .day-grid{grid-template-columns:repeat(4,1fr)}
+  .fq-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .footer-bottom{flex-direction:column;gap:.4rem;text-align:center}
+  .reviews-header{flex-direction:column;gap:1rem;align-items:flex-start}
+}
+@media(max-width:480px){
+  .hero-btns{flex-direction:column}
+  .btn{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG SYMBOLS -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-dumbbell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 5v14M18 5v14"/><path d="M4 7.5v9M20 7.5v9"/><path d="M2 9v6M22 9v6"/><line x1="6" y1="12" x2="18" y2="12"/>
+  </symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="7" r="3.5"/><path d="M2 21v-1a7 7 0 0 1 14 0v1"/><circle cx="17.5" cy="8" r="2.5"/><path d="M22 21v-1a4 4 0 0 0-5-3.87"/>
+  </symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+  </symbol>
+  <symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4"/><rect x="9" y="1" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/>
+  </symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16z"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+  </symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+  </symbol>
+  <symbol id="i-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12h14M12 5l7 7-7 7"/>
+  </symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 5v14M5 12l7 7 7-7"/>
+  </symbol>
+  <symbol id="i-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+  </symbol>
+  <symbol id="i-award" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+  </symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+  </symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+  </symbol>
+</svg>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#home" class="nav-logo"><img src="voorbeeld/cropped-fbe_Tekengebied-1-kopie-6-e1709240167290.png" alt="FitByEmre"></a>
+  <ul class="nav-links">
+    <li><a href="#contact">Aanmelden</a></li>
+    <li><a href="#diensten">Diensten</a></li>
+    <li><a href="#over">Over Emre</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Start nu</a>
+  <button class="ham" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+
+<div class="mobnav" id="mobnav">
+  <a href="#contact"  onclick="closeMob()">Aanmelden</a>
+  <a href="#diensten" onclick="closeMob()">Diensten</a>
+  <a href="#over"     onclick="closeMob()">Over Emre</a>
+  <a href="#reviews"  onclick="closeMob()">Reviews</a>
+  <a href="#contact" class="btn btn-primary" onclick="closeMob()">Start nu <svg class="ic-sm"><use href="#i-arr"/></svg></a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span style="font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)">Personal Fitness Coach</span>
+      </div>
+      <h1 class="hero-h1">Bereik<br><em>Jouw</em><br>Doel</h1>
+      <p class="hero-sub">Persoonlijke begeleiding op maat. Of je nu wilt afvallen, spiermassa wilt opbouwen of fitter wilt worden — Emre helpt je elke stap.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">Start vandaag <svg class="ic-sm"><use href="#i-arr"/></svg></a>
+        <a href="#diensten" class="btn btn-outline">Bekijk diensten</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">Jouw Resultaten</div>
+      <div class="hcs-grid">
+        <div class="hcs"><div class="hcs-n">100+</div><div class="hcs-l">Klanten</div></div>
+        <div class="hcs"><div class="hcs-n">5.0</div><div class="hcs-l">Rating</div></div>
+        <div class="hcs"><div class="hcs-n">3+</div><div class="hcs-l">Jaar</div></div>
+        <div class="hcs"><div class="hcs-n">98%</div><div class="hcs-l">Tevreden</div></div>
+      </div>
+      <a href="#contact" class="btn btn-primary">Plan gratis gesprek <svg class="ic-sm"><use href="#i-arr"/></svg></a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <svg width="18" height="18" class="ic"><use href="#i-down"/></svg>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq-band">
+  <div class="mq-track">
+    <div class="mq-item">Personal Training<span class="mq-dot"></span></div>
+    <div class="mq-item">Fitness Coaching<span class="mq-dot"></span></div>
+    <div class="mq-item">Online Begeleiding<span class="mq-dot"></span></div>
+    <div class="mq-item">Schema's op Maat<span class="mq-dot"></span></div>
+    <div class="mq-item">Small Group Training<span class="mq-dot"></span></div>
+    <div class="mq-item">Resultaat Gegarandeerd<span class="mq-dot"></span></div>
+    <div class="mq-item">Personal Training<span class="mq-dot"></span></div>
+    <div class="mq-item">Fitness Coaching<span class="mq-dot"></span></div>
+    <div class="mq-item">Online Begeleiding<span class="mq-dot"></span></div>
+    <div class="mq-item">Schema's op Maat<span class="mq-dot"></span></div>
+    <div class="mq-item">Small Group Training<span class="mq-dot"></span></div>
+    <div class="mq-item">Resultaat Gegarandeerd<span class="mq-dot"></span></div>
+  </div>
+</div>
+
+<!-- CONTACT FORM (TOP) -->
+<section class="sec cf-sec" id="contact">
+  <div class="wrap">
+    <div class="cf-grid">
+      <!-- left -->
+      <div class="cf-sticky rv-l">
+        <span class="lbl">Gratis kennismaking</span>
+        <h2 class="sec-title">Start Jouw<br>Transformatie</h2>
+        <div class="gold-bar"></div>
+        <p class="cf-intro">Plan vandaag een gratis kennismakingsgesprek. Ik neem binnen 24 uur contact op om jouw doelen en mogelijkheden te bespreken.</p>
+        <div class="cf-row">
+          <div class="cf-icon"><svg class="ic"><use href="#i-mail"/></svg></div>
+          <div><div class="cf-dt">E-mail</div><div class="cf-dv">info@fitbyemre.nl</div></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-icon"><svg class="ic"><use href="#i-phone"/></svg></div>
+          <div><div class="cf-dt">Telefoon / WhatsApp</div><div class="cf-dv">+31 6 8123088</div></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-icon"><svg class="ic"><use href="#i-clock"/></svg></div>
+          <div><div class="cf-dt">Openingstijden</div><div class="cf-dv">Ma – Vr: 08:00 – 20:00 (op afspraak)<br>Za &amp; Zo: gesloten</div></div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-icon"><svg class="ic"><use href="#i-map"/></svg></div>
+          <div><div class="cf-dt">Locatie</div><div class="cf-dv">Privé sportschool<br>Op afspraak bereikbaar</div></div>
+        </div>
+      </div>
+      <!-- right: form -->
+      <div class="rv-r">
+        <div class="fbox">
+          <div class="fprog" id="fprog">
+            <div class="fps on"></div><div class="fps"></div><div class="fps"></div>
+            <div class="fps"></div><div class="fps"></div><div class="fps"></div>
+            <span class="fprog-lbl" id="fprog-lbl">Stap 1/6</span>
+          </div>
+
+          <!-- Step 1 -->
+          <div class="fstep active" id="fs1">
+            <div class="fstep-num">Stap 1 van 6</div>
+            <div class="fstep-title">Wat is jouw naam?</div>
+            <div class="frow">
+              <div class="fmb"><label class="fl" for="f-vn">Voornaam</label><input class="fi" id="f-vn" type="text" placeholder="Jan" autocomplete="given-name"></div>
+              <div class="fmb"><label class="fl" for="f-an">Achternaam</label><input class="fi" id="f-an" type="text" placeholder="Jansen" autocomplete="family-name"></div>
+            </div>
+            <div class="fact"><span class="fact-c">1 / 6</span><button class="btn btn-primary" onclick="goStep(2)">Volgende <svg class="ic-sm"><use href="#i-arr"/></svg></button></div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="fstep" id="fs2">
+            <div class="fstep-num">Stap 2 van 6</div>
+            <div class="fstep-title">Hoe bereik ik je?</div>
+            <div class="fmb"><label class="fl" for="f-email">E-mailadres</label><input class="fi" id="f-email" type="email" placeholder="jan@email.nl" autocomplete="email"></div>
+            <div class="fmb"><label class="fl" for="f-tel">Telefoonnummer</label><input class="fi" id="f-tel" type="tel" placeholder="+31 6 12345678" autocomplete="tel"></div>
+            <div class="fact"><button class="btn btn-ghost" onclick="goStep(1)">← Terug</button><button class="btn btn-primary" onclick="goStep(3)">Volgende <svg class="ic-sm"><use href="#i-arr"/></svg></button></div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="fstep" id="fs3">
+            <div class="fstep-num">Stap 3 van 6</div>
+            <div class="fstep-title">Welke dienst?</div>
+            <div class="opts">
+              <div class="opt"><input type="radio" name="svc" id="svc1"><label for="svc1"><div class="opt-ring"></div><svg class="ic"><use href="#i-dumbbell"/></svg>Personal Training</label></div>
+              <div class="opt"><input type="radio" name="svc" id="svc2"><label for="svc2"><div class="opt-ring"></div><svg class="ic"><use href="#i-users"/></svg>Small Group Training</label></div>
+              <div class="opt"><input type="radio" name="svc" id="svc3"><label for="svc3"><div class="opt-ring"></div><svg class="ic"><use href="#i-monitor"/></svg>Online Coaching</label></div>
+              <div class="opt"><input type="radio" name="svc" id="svc4"><label for="svc4"><div class="opt-ring"></div><svg class="ic"><use href="#i-clipboard"/></svg>Schema's</label></div>
+            </div>
+            <div class="fact"><button class="btn btn-ghost" onclick="goStep(2)">← Terug</button><button class="btn btn-primary" onclick="goStep(4)">Volgende <svg class="ic-sm"><use href="#i-arr"/></svg></button></div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="fstep" id="fs4">
+            <div class="fstep-num">Stap 4 van 6</div>
+            <div class="fstep-title">Hoe vaak per week?</div>
+            <div class="fq-grid">
+              <div class="fq"><input type="radio" name="freq" id="fr1"><label for="fr1"><div class="fq-n">1×</div><div class="fq-l">per week</div></label></div>
+              <div class="fq"><input type="radio" name="freq" id="fr2"><label for="fr2"><div class="fq-n">2×</div><div class="fq-l">per week</div></label></div>
+              <div class="fq"><input type="radio" name="freq" id="fr3"><label for="fr3"><div class="fq-n">3×</div><div class="fq-l">per week</div></label></div>
+              <div class="fq"><input type="radio" name="freq" id="fr4"><label for="fr4"><div class="fq-n">4+</div><div class="fq-l">per week</div></label></div>
+            </div>
+            <div class="fact"><button class="btn btn-ghost" onclick="goStep(3)">← Terug</button><button class="btn btn-primary" onclick="goStep(5)">Volgende <svg class="ic-sm"><use href="#i-arr"/></svg></button></div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="fstep" id="fs5">
+            <div class="fstep-num">Stap 5 van 6</div>
+            <div class="fstep-title">Wanneer beschikbaar?</div>
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.6">Selecteer jouw voorkeursdagen.</p>
+            <div class="day-grid">
+              <div class="db"><input type="checkbox" id="d-ma"><label for="d-ma"><span>Ma</span></label></div>
+              <div class="db"><input type="checkbox" id="d-di"><label for="d-di"><span>Di</span></label></div>
+              <div class="db"><input type="checkbox" id="d-wo"><label for="d-wo"><span>Wo</span></label></div>
+              <div class="db"><input type="checkbox" id="d-do"><label for="d-do"><span>Do</span></label></div>
+              <div class="db"><input type="checkbox" id="d-vr"><label for="d-vr"><span>Vr</span></label></div>
+              <div class="db"><input type="checkbox" id="d-za"><label for="d-za"><span>Za</span></label></div>
+              <div class="db"><input type="checkbox" id="d-zo"><label for="d-zo"><span>Zo</span></label></div>
+            </div>
+            <div class="fmb"><label class="fl" for="f-tijd">Voorkeur tijdstip</label>
+              <select class="fi" id="f-tijd">
+                <option value="" disabled selected>Kies een tijdstip</option>
+                <option>Ochtend (07:00 – 10:00)</option>
+                <option>Middag (10:00 – 14:00)</option>
+                <option>Middag / Avond (14:00 – 17:00)</option>
+                <option>Avond (17:00 – 20:00)</option>
+              </select>
+            </div>
+            <div class="fact"><button class="btn btn-ghost" onclick="goStep(4)">← Terug</button><button class="btn btn-primary" onclick="goStep(6)">Volgende <svg class="ic-sm"><use href="#i-arr"/></svg></button></div>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="fstep" id="fs6">
+            <div class="fstep-num">Stap 6 van 6</div>
+            <div class="fstep-title">Jouw fitnessdoel</div>
+            <div class="fmb"><label class="fl" for="f-doel">Vertel mij over jouw doel</label><textarea class="fi" id="f-doel" placeholder="Bijv. ik wil 10 kg afvallen, spiermassa opbouwen, fitter worden voor een evenement..."></textarea></div>
+            <div class="fmb"><label class="fl" for="f-bron">Hoe heb je ons gevonden?</label>
+              <select class="fi" id="f-bron">
+                <option value="" disabled selected>Selecteer een optie</option>
+                <option>Instagram</option><option>Google</option>
+                <option>Aanbeveling vriend/familie</option>
+                <option>YouTube</option><option>Anders</option>
+              </select>
+            </div>
+            <div class="fact"><button class="btn btn-ghost" onclick="goStep(5)">← Terug</button><button class="btn btn-primary" onclick="submitForm()">Aanmelden ✓</button></div>
+          </div>
+
+          <!-- Success -->
+          <div class="fsuc" id="fsuc">
+            <div class="fsuc-ring"><svg width="32" height="32"><use href="#i-check"/></svg></div>
+            <h3>Aanmelding Ontvangen!</h3>
+            <p>Super! Ik neem zo snel mogelijk contact op voor een gratis kennismakingsgesprek. Tot snel!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="sec" id="diensten" style="background:var(--onyx)">
+  <div class="wrap">
+    <div class="rv" style="margin-bottom:3.5rem">
+      <span class="lbl">Wat ik aanbied</span>
+      <h2 class="sec-title">Mijn Diensten</h2>
+      <div class="gold-bar"></div>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card rv d1">
+        <div class="svc-icon"><svg width="32" height="32"><use href="#i-dumbbell"/></svg></div>
+        <div class="svc-name">Personal Training</div>
+        <p class="svc-desc">1-op-1 begeleiding volledig op maat. Voortgang wekelijks bijgehouden via de Leanome App. Minimaal 3 maanden voor zichtbaar resultaat.</p>
+        <div class="svc-price"><svg class="ic-sm"><use href="#i-star"/></svg> Vanaf €60 per sessie</div>
+      </div>
+      <div class="svc-card rv d2">
+        <div class="svc-icon"><svg width="32" height="32"><use href="#i-users"/></svg></div>
+        <div class="svc-name">Small Group Training</div>
+        <p class="svc-desc">Train in een kleine groep en haal het beste uit jezelf. De voordelen van personal training met de energie van een team.</p>
+        <div class="svc-price"><svg class="ic-sm"><use href="#i-star"/></svg> Vraag naar tarieven</div>
+      </div>
+      <div class="svc-card rv d3">
+        <div class="svc-icon"><svg width="32" height="32"><use href="#i-monitor"/></svg></div>
+        <div class="svc-name">Online Coaching</div>
+        <p class="svc-desc">Persoonlijke begeleiding op afstand. Trainingsschema, voedingsadvies en wekelijkse check-ins via de app.</p>
+        <div class="svc-price"><svg class="ic-sm"><use href="#i-star"/></svg> Vraag naar tarieven</div>
+      </div>
+      <div class="svc-card rv d4">
+        <div class="svc-icon"><svg width="32" height="32"><use href="#i-clipboard"/></svg></div>
+        <div class="svc-name">Schema's</div>
+        <p class="svc-desc">Op maat gemaakte trainings- en voedingsschema's die perfect aansluiten op jouw levensstijl en doelen.</p>
+        <div class="svc-price"><svg class="ic-sm"><use href="#i-star"/></svg> Vraag naar tarieven</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="rv d1"><div class="stn" data-target="100" data-suffix="+">0</div><div class="stl">Klanten begeleid</div></div>
+      <div class="rv d2"><div class="stn">5.0 ★</div><div class="stl">Google beoordeling</div></div>
+      <div class="rv d3"><div class="stn" data-target="3" data-suffix="+">0</div><div class="stl">Jaar ervaring</div></div>
+      <div class="rv d4"><div class="stn" data-target="98" data-suffix="%">0</div><div class="stl">Tevreden klanten</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec about" id="over">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-img-wrap rv-l">
+        <img class="about-img" src="fotos/622946142_18101122273681350_2510665615728612212_n.jpg" alt="Emre – Personal Fitness Coach">
+        <div class="about-deco"></div>
+        <div class="about-badge"><div class="about-badge-n">100+</div><div class="about-badge-l">Blije klanten</div></div>
+      </div>
+      <div class="rv-r" style="display:flex;flex-direction:column;gap:1.2rem">
+        <span class="lbl">Over mij</span>
+        <h2 class="sec-title">Hallo,<br>ik ben Emre</h2>
+        <div class="gold-bar"></div>
+        <p class="about-copy" style="margin-top:.5rem">Als gecertificeerd personal trainer is mijn missie simpel: jou helpen de beste versie van jezelf te worden. Of je 1 of 4 keer per week traint — ik zorg voor het plan, de begeleiding en de motivatie.</p>
+        <p class="about-copy">Elke klant is anders. Daarom maak ik voor jou een volledig persoonlijk programma en houd ik je voortgang bij via de <strong style="color:var(--ivory)">Leanome App</strong>, zodat we altijd kunnen bijsturen.</p>
+        <div class="checks">
+          <div class="chk"><div class="chk-c"><svg class="ic-sm"><use href="#i-check"/></svg></div><span>Gecertificeerd Personal Trainer</span></div>
+          <div class="chk"><div class="chk-c"><svg class="ic-sm"><use href="#i-check"/></svg></div><span>Eigen privé sportschool</span></div>
+          <div class="chk"><div class="chk-c"><svg class="ic-sm"><use href="#i-check"/></svg></div><span>Voortgang via Leanome App</span></div>
+          <div class="chk"><div class="chk-c"><svg class="ic-sm"><use href="#i-check"/></svg></div><span>Flexibele tijden op afspraak</span></div>
+          <div class="chk"><div class="chk-c"><svg class="ic-sm"><use href="#i-check"/></svg></div><span>Persoonlijk trainings- &amp; voedingsplan</span></div>
+        </div>
+        <div><a href="#contact" class="btn btn-primary">Plan een kennismaking <svg class="ic-sm"><use href="#i-arr"/></svg></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sec how">
+  <div class="wrap">
+    <div class="rv" style="margin-bottom:4rem;text-align:center">
+      <span class="lbl">Het proces</span>
+      <h2 class="sec-title">Zo Werkt Het</h2>
+      <div class="gold-bar" style="margin-left:auto;margin-right:auto"></div>
+    </div>
+    <div class="how-steps">
+      <div class="how-step rv d1">
+        <div class="how-num-row">
+          <div class="how-num">01</div>
+          <div class="how-ic"><svg class="ic-lg"><use href="#i-phone"/></svg></div>
+        </div>
+        <div class="how-title">Kennismakingsgesprek</div>
+        <p class="how-desc">We spreken gratis af om jouw doelen, ervaring en wensen in kaart te brengen. Geen verplichtingen, gewoon een goed gesprek.</p>
+      </div>
+      <div class="how-step rv d2">
+        <div class="how-num-row">
+          <div class="how-num">02</div>
+          <div class="how-ic"><svg class="ic-lg"><use href="#i-clipboard"/></svg></div>
+        </div>
+        <div class="how-title">Persoonlijk Plan</div>
+        <p class="how-desc">Ik stel een volledig op maat trainings- en voedingsplan voor je op, afgestemd op jouw schema, niveau en doelen.</p>
+      </div>
+      <div class="how-step rv d3">
+        <div class="how-num-row">
+          <div class="how-num">03</div>
+          <div class="how-ic"><svg class="ic-lg"><use href="#i-target"/></svg></div>
+        </div>
+        <div class="how-title">Train &amp; Transformeer</div>
+        <p class="how-desc">We trainen samen, ik begeleid elke sessie en sturen bij via de app. Zo behaal jij jouw doelen stap voor stap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTION PHOTOS -->
+<div class="action-strip">
+  <div class="act-img rv-l">
+    <img src="fotos/2.jpg.webp" alt="Personal training sessie">
+    <div class="act-cap"><div class="act-cap-inner"><div class="act-label">Personal Training</div><div class="act-sub">1-op-1 begeleiding</div></div></div>
+  </div>
+  <div class="act-img rv-r">
+    <img src="fotos/Gewichtheffen.webp" alt="Krachttraining met begeleiding">
+    <div class="act-cap"><div class="act-cap-inner"><div class="act-label">Kracht &amp; Techniek</div><div class="act-sub">Veilig &amp; effectief</div></div></div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="sec reviews" id="reviews">
+  <div class="wrap">
+    <div class="reviews-header rv">
+      <div>
+        <span class="lbl">Wat klanten zeggen</span>
+        <h2 class="sec-title">Google Reviews</h2>
+        <div class="gold-bar"></div>
+      </div>
+      <div class="rating-pill">
+        <div class="rating-stars">
+          <svg width="20" height="20"><use href="#i-star"/></svg><svg width="20" height="20"><use href="#i-star"/></svg><svg width="20" height="20"><use href="#i-star"/></svg><svg width="20" height="20"><use href="#i-star"/></svg><svg width="20" height="20"><use href="#i-star"/></svg>
+        </div>
+        <span class="rating-num">5.0</span>
+        <span class="rating-src">Google</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap" style="overflow:visible">
+    <div class="reel" id="reel">
+      <div class="rcard rv d1">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"Emre heeft mij goed geholpen met het behalen van mijn doelen. Hij heeft mij goed gemotiveerd op momenten dat ik geen motivatie meer had. Ik raad hem aan!"</p>
+        <div class="rcard-author"><div class="rcard-av">L</div><div><div class="rcard-name">Luuk Van de Geer</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+      <div class="rcard rv d2">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"Ik train nu al een jaar lang bij mijn personal trainer. Ze motiveert me om het beste uit mezelf te halen en zorgt ervoor dat ik elke week met plezier kom."</p>
+        <div class="rcard-author"><div class="rcard-av">M</div><div><div class="rcard-name">Merel van Houten</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+      <div class="rcard rv d3">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"FitByEmre is echt een topcoach! Goede begeleiding, persoonlijke aandacht en altijd motiverend. De gym is mooi, gezellig en heeft een super fijne sfeer. Elke training voelt top!"</p>
+        <div class="rcard-author"><div class="rcard-av">C</div><div><div class="rcard-name">Ctk Transport</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+      <div class="rcard rv d4">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"Hele goede trainer. Emre heeft mij super goed geholpen met het behalen van mijn doelen. Hij was zeer relaxed en gaf mij goede motivatie."</p>
+        <div class="rcard-author"><div class="rcard-av">A</div><div><div class="rcard-name">AMAR D</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+      <div class="rcard rv d5">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"Toen ik voor het eerst binnen kwam, dacht ik hmm. Maar al na 5 seconden voelde ik me super thuis. Voelde me enorm op mijn gemak op de wijze hoe Emre me ontving."</p>
+        <div class="rcard-author"><div class="rcard-av">C</div><div><div class="rcard-name">C. Keskin</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+      <div class="rcard rv">
+        <div class="rcard-stars"><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg><svg width="15" height="15"><use href="#i-star"/></svg></div>
+        <p class="rcard-text">"Echt een geweldige Personal Trainer. Zowel de persoonlijke touch als de trainingen zijn helemaal top!"</p>
+        <div class="rcard-author"><div class="rcard-av">M</div><div><div class="rcard-name">Mert Kirtay</div><div class="rcard-src"><span class="g-g">G</span> Google Review · 5/5</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-logo" src="voorbeeld/cropped-fbe_Tekengebied-1-kopie-6-e1709240167290.png" alt="FitByEmre">
+        <p class="footer-tag">Persoonlijke fitness begeleiding op maat. Jouw doelen, mijn passie. Samen bouwen we aan jouw beste zelf.</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/fitbyemre" class="soc" target="_blank" rel="noopener" aria-label="Instagram"><svg width="18" height="18"><use href="#i-ig"/></svg></a>
+          <a href="https://www.youtube.com/@fitbyemre" class="soc" target="_blank" rel="noopener" aria-label="YouTube"><svg width="18" height="18"><use href="#i-yt"/></svg></a>
+          <a href="https://wa.me/31681230882" class="soc" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="18" height="18"><use href="#i-wa"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="fcol-t">Navigatie</div>
+        <ul class="flinks">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#contact">Aanmelden</a></li>
+          <li><a href="#diensten">Diensten</a></li>
+          <li><a href="#over">Over Emre</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fcol-t">Diensten</div>
+        <ul class="flinks">
+          <li><a href="#diensten">Personal Training</a></li>
+          <li><a href="#diensten">Small Group Training</a></li>
+          <li><a href="#diensten">Online Coaching</a></li>
+          <li><a href="#diensten">Schema's</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fcol-t">Contact</div>
+        <div class="hour"><span class="d">Ma – Vr</span><span>08:00 – 20:00</span></div>
+        <div class="hour"><span class="d">Zaterdag</span><span>Gesloten</span></div>
+        <div class="hour"><span class="d">Zondag</span><span>Gesloten</span></div>
+        <div class="footer-contact-links">
+          <a href="mailto:info@fitbyemre.nl"><svg width="14" height="14"><use href="#i-mail"/></svg> info@fitbyemre.nl</a>
+          <a href="tel:+31681230882"><svg width="14" height="14"><use href="#i-phone"/></svg> +31 6 8123088</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2024 FitByEmre. Alle rechten voorbehouden.</span>
+      <span style="display:flex;align-items:center;gap:.5rem"><svg width="14" height="14" style="color:var(--gold)"><use href="#i-award"/></svg> Personal Fitness Coach</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* NAV */
+const nav=document.getElementById('nav'),ham=document.getElementById('ham'),mob=document.getElementById('mobnav');
+window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>50),{passive:true});
+ham.addEventListener('click',()=>{const o=ham.classList.toggle('open');mob.classList.toggle('open',o);document.body.style.overflow=o?'hidden':''});
+function closeMob(){ham.classList.remove('open');mob.classList.remove('open');document.body.style.overflow=''}
+
+/* PARALLAX */
+const bg=document.getElementById('heroBg');
+let ticking=false;
+window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{if(scrollY<innerHeight*1.3)bg.style.transform=`translateY(${scrollY*.25}px)`;ticking=false});ticking=true}},{passive:true});
+
+/* SCROLL REVEAL */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('vis');
+    const c=e.target.querySelector('[data-target]');
+    if(c&&!c.dataset.done){c.dataset.done='1';runCount(c)}
+  });
+},{rootMargin:'0px 0px -7% 0px',threshold:.08});
+document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el=>io.observe(el));
+
+/* COUNTER */
+function runCount(el){
+  const target=+el.dataset.target,suffix=el.dataset.suffix||'',dur=1600;let t=null;
+  requestAnimationFrame(function tick(ts){
+    if(!t)t=ts;
+    const p=Math.min((ts-t)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=Math.floor(e*target)+suffix;
+    if(p<1)requestAnimationFrame(tick);
+  });
+}
+
+/* DRAG REEL */
+const reel=document.getElementById('reel');
+let drag=false,sx=0,sl=0;
+reel.addEventListener('mousedown',e=>{drag=true;sx=e.pageX-reel.offsetLeft;sl=reel.scrollLeft;reel.style.cursor='grabbing'});
+reel.addEventListener('mouseleave',()=>{drag=false;reel.style.cursor='grab'});
+reel.addEventListener('mouseup',()=>{drag=false;reel.style.cursor='grab'});
+reel.addEventListener('mousemove',e=>{if(!drag)return;e.preventDefault();reel.scrollLeft=sl-(e.pageX-reel.offsetLeft-sx)*1.8});
+
+/* FORM */
+let step=1;
+function goStep(n){
+  document.getElementById('fs'+step).classList.remove('active');
+  step=n;
+  document.getElementById('fs'+step).classList.add('active');
+  document.querySelectorAll('.fps').forEach((s,i)=>s.classList.toggle('on',i<step));
+  document.getElementById('fprog-lbl').textContent='Stap '+step+'/6';
+}
+function submitForm(){
+  document.getElementById('fs'+step).classList.remove('active');
+  document.getElementById('fprog').style.opacity='0';
+  document.getElementById('fsuc').classList.add('show');
+}
+</script>
+</body>
+</html>
